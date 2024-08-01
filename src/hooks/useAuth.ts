@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie } from "@/lib/cookie";
 
-type Permission = "admin" | "user" | null;
+type Permission = "admin" | "user" | "faculty" | null;
 
 function useAuth() {
   const [permission, setPermission] = useState<Permission>(null);

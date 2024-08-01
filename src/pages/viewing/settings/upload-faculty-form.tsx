@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 interface JSONFacultyFormat {
   NAME: string;
   INITIALS: string;
+  PASSWORD: string;
 }
 
 function UploadFacultyForm() {
@@ -38,7 +39,7 @@ function UploadFacultyForm() {
       for (let i = 0; i < jsonData.length; i++) {
         const individual = jsonData[i];
         try {
-          await createFaculty(individual.NAME, individual.INITIALS);
+          await createFaculty(individual.NAME, individual.INITIALS, individual.PASSWORD);
         } catch (err) {
           errorCount++;
         }

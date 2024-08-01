@@ -1,25 +1,24 @@
 // FacultyList.tsx
 
-import { Edit } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 import { useEffect, useState } from "react";
 import { getFaculties } from "@/services/api/faculty";
 import { useFacultyStore } from "@/stores/faculty";
 import { useQuery } from "@tanstack/react-query";
 import { IFaculty } from "@/types/api";
-import useFacultyModalStore from "@/stores/modal/facultyModal";
 
 interface FacultyListProps {
   onFacultyIdChange: (id: string | null) => void; // Add this prop
 }
 
 function FacultyList({ onFacultyIdChange }: FacultyListProps) {
-  const { openModal } = useFacultyModalStore();
+
   const [matchingFaculty, setMatchingFaculty] = useState<IFaculty | null>(null);
-  const [faculties, setFaculties] = useState<IFaculty[]>([]);
-  const [value, setValue] = useState("");
+ 
   const { setFacultyName } = useFacultyStore();
+  
+
+  
 
   // Query faculty list
   const { data } = useQuery({
@@ -31,13 +30,11 @@ function FacultyList({ onFacultyIdChange }: FacultyListProps) {
 
   useEffect(() => {
     if (data && Array.isArray(data)) {
-      setFaculties(data);
-
       const foundFaculty = data.find(facultyItem => facultyItem.name === facultyNameFromStorage);
       setMatchingFaculty(foundFaculty || null);
 
       if (foundFaculty) {
-        setValue(foundFaculty.name);
+        
         setFacultyName(foundFaculty.name);
         onFacultyIdChange(foundFaculty.id.toString()); // Notify parent component
       } else {

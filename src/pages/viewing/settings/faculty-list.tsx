@@ -1,5 +1,3 @@
-// FacultyList.tsx
-
 import { Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,14 +9,12 @@ import { IFaculty } from "@/types/api";
 import useFacultyModalStore from "@/stores/modal/facultyModal";
 
 interface FacultyListProps {
-  onFacultyIdChange: (id: string | null) => void; // Add this prop
+  onFacultyIdChange: (id: string | null) => void;
 }
 
 function FacultyList({ onFacultyIdChange }: FacultyListProps) {
   const { openModal } = useFacultyModalStore();
   const [matchingFaculty, setMatchingFaculty] = useState<IFaculty | null>(null);
-  const [faculties, setFaculties] = useState<IFaculty[]>([]);
-  const [value, setValue] = useState("");
   const { setFacultyName } = useFacultyStore();
 
   // Query faculty list
@@ -31,15 +27,12 @@ function FacultyList({ onFacultyIdChange }: FacultyListProps) {
 
   useEffect(() => {
     if (data && Array.isArray(data)) {
-      setFaculties(data);
-
       const foundFaculty = data.find(facultyItem => facultyItem.name === facultyNameFromStorage);
       setMatchingFaculty(foundFaculty || null);
 
       if (foundFaculty) {
-        setValue(foundFaculty.name);
         setFacultyName(foundFaculty.name);
-        onFacultyIdChange(foundFaculty.id.toString()); // Notify parent component
+        onFacultyIdChange(foundFaculty.id.toString());
       } else {
         onFacultyIdChange(null);
       }
@@ -47,34 +40,27 @@ function FacultyList({ onFacultyIdChange }: FacultyListProps) {
   }, [data, facultyNameFromStorage, setFacultyName, onFacultyIdChange]);
 
   return (
-    <>
-     <ScrollArea className="h-full w-full">
-
-
-    <div className="h-full w-full">
-      {matchingFaculty ? (
-        <div className="flex items-center justify-between rounded p-2 hover:bg-slate-200">
-          <p className="col-span-8 text-xl font-bold">{matchingFaculty.name}</p>
-
-          <section className="flex gap-2">
-        <Button
-          variant={"default"}
-          onClick={() => matchingFaculty && openModal(matchingFaculty, "update")} // Pass matchingFaculty to openModal
-        >
-          <Edit />
-        </Button>
-      </section>
-      
-        </div>
-      ) : (
-        <p className="col-span-8 text-xl font-bold text-center">Log out and then log back in to apply the changes you've made. If you have any issues with your account, please contact the administrator for assistance.</p>
-        
-      )}
-
-     
-    </div>
+    <ScrollArea className="h-full w-full">
+      <div className="h-full w-full">
+        {matchingFaculty ? (
+          <div className="flex items-center justify-between rounded p-2 hover:bg-slate-200">
+            <p className="col-span-8 text-xl font-bold">{matchingFaculty.name}</p>
+            <section className="flex gap-2">
+              <Button
+                variant={"default"}
+                onClick={() => matchingFaculty && openModal(matchingFaculty, "update")}
+              >
+                <Edit />
+              </Button>
+            </section>
+          </div>
+        ) : (
+          <p className="col-span-8 text-xl font-bold text-center">
+            Log out and then log back in to apply the changes you've made. If you have any issues with your account, please contact the administrator for assistance.
+          </p>
+        )}
+      </div>
     </ScrollArea>
-    </>
   );
 }
 

@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 
 import InputFields from "@/components/table/faculty/footer/input-fields";
 import InputTeachingHours from "@/components/table/faculty/footer/input-teaching-hours";
