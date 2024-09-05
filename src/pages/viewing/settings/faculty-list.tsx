@@ -26,16 +26,18 @@ function FacultyList({ onFacultyIdChange }: FacultyListProps) {
   const facultyNameFromStorage = localStorage.getItem("facultyName");
 
   useEffect(() => {
-    if (data && Array.isArray(data)) {
+    if (data && typeof data.find === 'function') {
       const foundFaculty = data.find(facultyItem => facultyItem.name === facultyNameFromStorage);
       setMatchingFaculty(foundFaculty || null);
-
+  
       if (foundFaculty) {
         setFacultyName(foundFaculty.name);
         onFacultyIdChange(foundFaculty.id.toString());
       } else {
         onFacultyIdChange(null);
       }
+    } else {
+      onFacultyIdChange(null);
     }
   }, [data, facultyNameFromStorage, setFacultyName, onFacultyIdChange]);
 
